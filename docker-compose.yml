@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  queuemanagement-service:
+    build: .
+    container_name: queuemanagement-service-container
+    ports:
+      - "86:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/queuemanagementdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    networks:
+      - queue_management_network
+      - local_central_db_network
+      - local_central_rabbitmq_network
+networks:
+    local_central_db_network:
+        external: true
+    queue_management_network:
+        external: true
+    local_central_rabbitmq_network:
+        external: true
